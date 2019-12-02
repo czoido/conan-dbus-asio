@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 
 
 class ConandbusasioConan(ConanFile):
@@ -12,6 +13,9 @@ class ConandbusasioConan(ConanFile):
     generators = "cmake"
     requires = "boost/1.71.0"
 
+    def configure(self):
+        if self.settings.os != "Linux":
+            raise ConanInvalidConfiguration("This library only works for Linux")
 
     def source(self):
         self.run("git clone https://github.com/dbus-asio/dbus-asio.git")
